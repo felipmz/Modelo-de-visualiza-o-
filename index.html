@@ -115,32 +115,57 @@
         padding:20px;
         background:#fafafa;
         cursor:pointer;
+        position:relative;
+        transition:all 0.2s ease;
     }
 
     .risk-card:hover{
         background:#f0f0f0;
+        border-color:#666;
     }
 
     .tooltip{
         position:absolute;
-        bottom:110%;
+        bottom:100%;
         left:50%;
         transform:translateX(-50%);
-        background:#222;
-        color:white;
-        padding:12px;
+        background:#1a1a1a;
+        color:#fff;
+        padding:10px 12px;
         border-radius:6px;
-        width:280px;
+        width:240px;
         font-size:12px;
-        line-height:1.5;
+        line-height:1.4;
         display:none;
-        z-index:999;
+        z-index:1000;
         text-align:left;
+        white-space:normal;
+        word-wrap:break-word;
+        margin-bottom:10px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.2);
+        opacity:0;
+        transition:opacity 0.2s ease;
+        pointer-events:none;
     }
 
-    .node:hover .tooltip,
-    .risk-card:hover .tooltip{
+    .tooltip::after{
+        content:'';
+        position:absolute;
+        top:100%;
+        left:50%;
+        transform:translateX(-50%);
+        border:6px solid transparent;
+        border-top-color:#1a1a1a;
+    }
+
+    .node:hover > .tooltip{
         display:block;
+        opacity:1;
+    }
+
+    .risk-card:hover > .tooltip{
+        display:block;
+        opacity:1;
     }
 
     @media(max-width:768px){

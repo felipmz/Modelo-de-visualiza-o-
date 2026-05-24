@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Runtime Monitoring Architecture</title>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#f5f5f5;
+        margin:0;
+        padding:40px;
+        color:#222;
+    }
+
+    h1{
+        text-align:center;
+        margin-bottom:10px;
+        font-size:28px;
+        font-weight:600;
+    }
+
+    .subtitle{
+        text-align:center;
+        margin-bottom:40px;
+        color:#666;
+        font-size:14px;
+    }
+
+    .diagram-container{
+        background:white;
+        border:1px solid #ddd;
+        border-radius:10px;
+        padding:30px;
+        margin-bottom:40px;
+        box-shadow:0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .diagram-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:25px;
+    }
+
+    .diagram-title{
+        font-size:22px;
+        font-weight:600;
+    }
+
+    .download-btn{
+        border:none;
+        background:#222;
+        color:white;
+        padding:10px 18px;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:13px;
+    }
+
+    .download-btn:hover{
+        background:#444;
+    }
+
+    .flow{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:14px;
+    }
+
+    .node{
+        background:#fafafa;
+        border:1px solid #ccc;
+        border-radius:8px;
+        padding:14px 22px;
+        min-width:240px;
+        text-align:center;
+        position:relative;
+        cursor:pointer;
+        transition:all 0.2s ease;
+        font-size:14px;
+    }
+
+    .node:hover{
+        background:#f0f0f0;
+        border-color:#999;
+    }
+
+    .arrow{
+        font-size:24px;
+        color:#666;
+    }
+
+    .branch{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        margin-top:10px;
+    }
+
+    .risk-grid{
+        display:grid;
+        grid-template-columns:repeat(2, 1fr);
+        gap:20px;
+        margin-top:20px;
+    }
+
+    .risk-card{
+        border:1px solid #ccc;
+        border-radius:8px;
+        padding:20px;
+        background:#fafafa;
+        cursor:pointer;
+    }
+
+    .risk-card:hover{
+        background:#f0f0f0;
+    }
+
+    .tooltip{
+        position:absolute;
+        bottom:110%;
+        left:50%;
+        transform:translateX(-50%);
+        background:#222;
+        color:white;
+        padding:12px;
+        border-radius:6px;
+        width:280px;
+        font-size:12px;
+        line-height:1.5;
+        display:none;
+        z-index:999;
+        text-align:left;
+    }
+
+    .node:hover .tooltip,
+    .risk-card:hover .tooltip{
+        display:block;
+    }
+
+    @media(max-width:768px){
+        .risk-grid{
+            grid-template-columns:1fr;
+        }
+    }
+</style>
+</head>
+<body>
+
+<h1>Runtime Monitoring Architecture</h1>
+<p class="subtitle">
+Conceptual Architecture for Continuous Runtime Monitoring in Conversational LLM Systems
+</p>
+
+<!-- ======================== -->
+<!-- 1. MACRO ARCHITECTURE -->
+<!-- ======================== -->
+
+<div class="diagram-container" id="macroDiagram">
+
+    <div class="diagram-header">
+        <div class="diagram-title">
+            1. Macro Architecture Diagram
+        </div>
+
+        <button class="download-btn" onclick="downloadDiagram('macroDiagram', 'macro-architecture')">
+            Download PNG
+        </button>
+    </div>
+
+    <div class="flow">
+
+        <div class="node">
+            User
+            <div class="tooltip">
+                Represents the human agent interacting with the conversational system.
+                User interactions are treated as continuous contextual events.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Conversation Layer
+            <div class="tooltip">
+                Responsible for session persistence, conversational memory,
+                context management and multi-turn synchronization.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            LLM Core
+            <div class="tooltip">
+                Generative language model responsible for producing candidate responses.
+                Considered a potentially unsafe component requiring runtime supervision.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Runtime Monitoring Layer
+
+            <div class="tooltip">
+                Central monitoring layer responsible for continuous contextual,
+                emotional and behavioral supervision during runtime.
+            </div>
+
+            <div class="branch">
+
+                <div class="node">
+                    Context Tracking
+                    <div class="tooltip">
+                        Maintains persistent conversational state and temporal history.
+                    </div>
+                </div>
+
+                <div class="node">
+                    Emotion Analysis
+                    <div class="tooltip">
+                        Detects emotional vulnerability, distress and affective patterns.
+                    </div>
+                </div>
+
+                <div class="node">
+                    Risk Detection
+                    <div class="tooltip">
+                        Calculates progressive conversational risk levels.
+                    </div>
+                </div>
+
+                <div class="node">
+                    Behavioral Drift Analysis
+                    <div class="tooltip">
+                        Detects alignment drift, sycophancy and unsafe adaptation.
+                    </div>
+                </div>
+
+                <div class="node">
+                    Decision Engine
+                    <div class="tooltip">
+                        Defines adaptive mitigation and runtime enforcement policies.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Adaptive Response Controller
+            <div class="tooltip">
+                Applies mitigation strategies such as filtering,
+                response modification and safe redirection.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Final Response
+            <div class="tooltip">
+                Final supervised response delivered after runtime monitoring and mitigation.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ======================== -->
+<!-- 2. RUNTIME WORKFLOW -->
+<!-- ======================== -->
+
+<div class="diagram-container" id="workflowDiagram">
+
+    <div class="diagram-header">
+        <div class="diagram-title">
+            2. Runtime Monitoring Workflow
+        </div>
+
+        <button class="download-btn" onclick="downloadDiagram('workflowDiagram', 'runtime-workflow')">
+            Download PNG
+        </button>
+    </div>
+
+    <div class="flow">
+
+        <div class="node">
+            Conversation State
+            <div class="tooltip">
+                Persistent conversational memory containing contextual and emotional history.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Context Update
+            <div class="tooltip">
+                Updates session state with new contextual and temporal information.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Emotion Extraction
+            <div class="tooltip">
+                Identifies emotional signals, vulnerability and psychological distress.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Risk Score Calculation
+            <div class="tooltip">
+                Computes accumulated contextual risk dynamically over time.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Behavioral Drift Analysis
+            <div class="tooltip">
+                Monitors unsafe conversational degradation and alignment failures.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Decision Policy
+            <div class="tooltip">
+                Selects mitigation strategy based on contextual severity.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Adaptive Mitigation
+            <div class="tooltip">
+                Applies filtering, blocking, redirection and safe modifications.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Conversation State Update ↺
+            <div class="tooltip">
+                Updates global conversational state creating a continuous feedback loop.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ======================== -->
+<!-- 3. ADAPTIVE DECISION FLOW -->
+<!-- ======================== -->
+
+<div class="diagram-container" id="decisionDiagram">
+
+    <div class="diagram-header">
+        <div class="diagram-title">
+            3. Adaptive Decision Flow Diagram
+        </div>
+
+        <button class="download-btn" onclick="downloadDiagram('decisionDiagram', 'adaptive-decision-flow')">
+            Download PNG
+        </button>
+    </div>
+
+    <div class="flow">
+
+        <div class="node">
+            Risk Detection
+            <div class="tooltip">
+                Detects conversational vulnerability and contextual escalation.
+            </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="node">
+            Risk Classification
+            <div class="tooltip">
+                Categorizes risk severity into adaptive mitigation levels.
+            </div>
+        </div>
+
+        <div class="risk-grid">
+
+            <div class="risk-card">
+                <strong>Low Risk</strong>
+                <p>Normal Response</p>
+
+                <div class="tooltip">
+                    Minimal intervention preserving conversational fluency.
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <strong>Moderate Risk</strong>
+                <p>Soft Mitigation</p>
+
+                <div class="tooltip">
+                    Applies lightweight mitigation and emotional softening.
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <strong>High Risk</strong>
+                <p>Response Modification</p>
+
+                <div class="tooltip">
+                    Modifies unsafe outputs and applies stronger safeguards.
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <strong>Critical Risk</strong>
+                <p>Block / Human Intervention</p>
+
+                <div class="tooltip">
+                    Blocks dangerous outputs and recommends human intervention.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+async function downloadDiagram(id, filename){
+
+    const element = document.getElementById(id);
+
+    const canvas = await html2canvas(element,{
+        scale:2,
+        backgroundColor:"#ffffff"
+    });
+
+    const link = document.createElement('a');
+    link.download = filename + '.png';
+    link.href = canvas.toDataURL();
+    link.click();
+}
+</script>
+
+</body>
+</html>
